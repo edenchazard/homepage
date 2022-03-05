@@ -2,7 +2,7 @@ version: '3'
 
 services:
   nginx:
-    container_name: hp_web
+    container_name: nginx
     image: nginx:stable-alpine
     restart: unless-stopped
     volumes:
@@ -17,7 +17,7 @@ services:
       - dc
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   certbot:
-    container_name: hp_cb
+    container_name: certbot
     image: certbot/certbot
     restart: unless-stopped
     volumes:
