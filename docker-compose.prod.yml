@@ -2,7 +2,6 @@ version: '3'
 
 services:
   nginx:
-    container_name: nginx
     image: nginx:stable-alpine
     restart: unless-stopped
     volumes:
@@ -15,11 +14,14 @@ services:
       - 443:443
     networks:
       - dc
+      - internal
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
   certbot:
-    container_name: certbot
     image: certbot/certbot
     restart: unless-stopped
+    networks:
+      - internal
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
